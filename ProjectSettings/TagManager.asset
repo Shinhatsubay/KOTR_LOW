@@ -8,6 +8,7 @@ TagManager:
   - Enemy
   - LightDebris
   - Terrain
+  - UIdrag
   layers:
   - Default
   - TransparentFX
