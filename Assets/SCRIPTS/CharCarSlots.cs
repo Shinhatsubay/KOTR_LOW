@@ -23,9 +23,21 @@ public class CharCarSlots : MonoBehaviour {
     public delegate void OnCharChanged();
     public OnCharChanged onCharChangedCallback;
 
-    public int space = 13;
-
+    public int space = 10;
+    //public List<Character> StartChars = new List<Character>();
     public List<Character> chars = new List<Character>();
+
+    //private void Start()
+    //{
+
+    //    for (int i = 0; i < StartChars.Count; i++)
+    //    {
+    //        Add(StartChars[i]);
+    //        Debug.Log("Added " + StartChars[i].name + " to ");
+            
+    //    }
+
+    //}
 
     public void Add (Character charact)
     {
@@ -36,7 +48,8 @@ public class CharCarSlots : MonoBehaviour {
                 return;
             }
         chars.Add(charact);
-        if(onCharChangedCallback != null)
+        
+        if (onCharChangedCallback != null)
             onCharChangedCallback.Invoke();
     }
 
@@ -46,5 +59,11 @@ public class CharCarSlots : MonoBehaviour {
         if (onCharChangedCallback != null)
             onCharChangedCallback.Invoke();
     }
-	
+
+    public void Change(Character charact)
+    {
+        Debug.Log("Changing!");
+    }
+
+
 }

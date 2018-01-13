@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class DraggableObj : MonoBehaviour {
 
+    public CharCarSlots charCarSlots; 
+
     public const string dragTag = "UIdrag";
 
     private bool dragging = false;
