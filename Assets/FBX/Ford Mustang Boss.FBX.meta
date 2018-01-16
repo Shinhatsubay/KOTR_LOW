@@ -1,36 +1,38 @@
 fileFormatVersion: 2
-guid: b54584bcfbb33294087e1a1f542ee86c
-timeCreated: 1516133011
+guid: d7863b8d4f22de347b2f09305137fb57
+timeCreated: 1516136922
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
     100000: BL
-    100002: BR
-    100004: FL
-    100006: //RootNode
-    100008: FR
+    100002: Body
+    100004: BR
+    100006: FL
+    100008: //RootNode
+    100010: FR
     400000: BL
-    400002: BR
-    400004: FL
-    400006: //RootNode
-    400008: FR
+    400002: Body
+    400004: BR
+    400006: FL
+    400008: //RootNode
+    400010: FR
     2100000: 'Material #25'
     2300000: BL
-    2300002: BR
-    2300004: FL
-    2300006: //RootNode
+    2300002: Body
+    2300004: BR
+    2300006: FL
     2300008: FR
     3300000: BL
-    3300002: BR
-    3300004: FL
-    3300006: //RootNode
+    3300002: Body
+    3300004: BR
+    3300006: FL
     3300008: FR
-    4300000: Cylinder005
-    4300002: FL
-    4300004: BL
-    4300006: FR
-    4300008: BR
+    4300000: Body
+    4300002: BL
+    4300004: BR
+    4300006: FL
+    4300008: FR
     9500000: //RootNode
   externalObjects: {}
   materials:
