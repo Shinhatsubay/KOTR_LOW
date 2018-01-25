@@ -26,8 +26,8 @@ namespace QInventory
         {
             if (itemData.item != null)
             {
-                if (inv.tag == "Equipment")
-                    return;
+                //if (inv.tag == "Equipment")
+                //    return;
 
                 if ((inv.tag == "Inventory" || inv.tag == "SkillBar"))
                 {
@@ -47,8 +47,8 @@ namespace QInventory
         {
             if (itemData.item != null)
             {
-                if (inv.tag == "Equipment")
-                    return;
+                //if (inv.tag == "Equipment")
+                //    return;
 
                 if ((inv.tag == "Inventory" || inv.tag == "SkillBar"))
                 {
@@ -63,8 +63,8 @@ namespace QInventory
 
         public void OnEndDrag(PointerEventData eventData)
         {
-            if (inv.tag == "Equipment")
-                return;
+            //if (inv.tag == "Equipment")
+            //    return;
             if ((inv.tag == "Inventory" || inv.tag == "SkillBar"))
             {
                 if (inv.ReturnCoolingState(itemData.slot))

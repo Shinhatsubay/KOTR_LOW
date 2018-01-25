@@ -14,6 +14,7 @@ MonoBehaviour:
   itemList:
   - {fileID: 11400000, guid: a28f59151f3424846b1bf33d886cff2c, type: 2}
   - {fileID: 11400000, guid: 87fc31cc889036b46afedaedeab4046f, type: 2}
+  - {fileID: 11400000, guid: fa753447b24238c408fab413af9e9c16, type: 2}
   currencies:
   - {fileID: 11400000, guid: 24da10952ca8867448353f20d3873dce, type: 2}
   attributes:

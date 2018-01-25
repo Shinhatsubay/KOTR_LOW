@@ -34,7 +34,7 @@ MonoBehaviour:
   useOnPickUp: 0
   CDAllThisWhenUse: 0
   CDAllConsumbleWhenUse: 0
-  equipmentPart: 1
+  equipmentPart: 4
   equipmentItemAttributes:
   - equipmentItemAttribute: {fileID: 11400000, guid: b52688fb9b86d23438603d89fee49264,
       type: 2}

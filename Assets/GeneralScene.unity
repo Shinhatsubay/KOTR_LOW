@@ -1834,7 +1834,7 @@ MonoBehaviour:
   playerInventoryManager: {fileID: 213839131}
   equipmentManager: {fileID: 213839130}
   toolTip: {fileID: 213839129}
-  equipmentInventory: {fileID: 1821604256}
+  equipmentInventory: {fileID: 2068718435}
   skillBar: {fileID: 1083669967}
   infoManager: {fileID: 213839128}
   itemSortingManager: {fileID: 213839127}
@@ -1862,9 +1862,9 @@ MonoBehaviour:
   playerHeight: 0
   dropForce: 100
   Canvas: {fileID: 1747790960}
-  m_InventorySlot: {fileID: 1127644298805872, guid: 117d4f0a5d11e6b4494cb03192908cca,
+  m_InventorySlot: {fileID: 1384471810187486, guid: 56bdd00db8e29a242bac4a4bd84e830a,
     type: 2}
-  m_InventoryItem: {fileID: 1023306513139380, guid: 57bdabe8496ea284895ecedd844e4b78,
+  m_InventoryItem: {fileID: 1228359560690330, guid: d8b2eac8d6ef7bf4494d8d186ae0f01a,
     type: 2}
   m_StorageSlot: {fileID: 1127644298805872, guid: 44f4b0c0c520a0b448ec0b36c489ea90,
     type: 2}
@@ -1878,7 +1878,7 @@ MonoBehaviour:
     type: 2}
   m_CraftItem: {fileID: 1578415083045896, guid: 46ae8e0e102050c4488aab46f6a4f79a,
     type: 2}
-  m_EquipmentItem: {fileID: 1023306513139380, guid: 695f9d2a7f6988d48b51740f9bfd42c0,
+  m_EquipmentItem: {fileID: 1409456127572862, guid: d8eb1da44e4a5be4e862c02547a1d008,
     type: 2}
   m_EquipmentContainer: {fileID: 428386104}
   m_SkillBarSlot: {fileID: 1127644298805872, guid: cf2d1a9c6c881c14ba14519385ea0730,
@@ -1935,7 +1935,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tooltip: {fileID: 1547600381}
-  gridList: {fileID: 1512979770}
+  gridList: {fileID: 1207543220}
   toolTipText: {fileID: 1902396264191046, guid: da0f15ff030a9ac4bab75f2092892dd3,
     type: 2}
   toolTipHoverTime: 0.5
@@ -1954,19 +1954,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   equipmentParts:
-  - equipmentPart: 1
+  - equipmentPart: 4
     playerPart: {fileID: 1099206050}
-  - equipmentPart: 2
+  - equipmentPart: 4
     playerPart: {fileID: 1026323754}
-  - equipmentPart: 3
+  - equipmentPart: 4
     playerPart: {fileID: 873314109}
   - equipmentPart: 4
     playerPart: {fileID: 2006608453}
-  - equipmentPart: 5
+  - equipmentPart: 4
     playerPart: {fileID: 130436888}
-  - equipmentPart: 6
+  - equipmentPart: 4
     playerPart: {fileID: 1959767289}
-  - equipmentPart: 7
+  - equipmentPart: 4
     playerPart: {fileID: 552367901}
 --- !u!114 &213839131
 MonoBehaviour:
@@ -3735,7 +3735,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.0000033057038}
+  m_AnchoredPosition: {x: 0, y: -0.000018068184}
   m_SizeDelta: {x: 400, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &383030883
@@ -4073,7 +4073,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.0000033057038}
+  m_AnchoredPosition: {x: 0, y: -0.000018068184}
   m_SizeDelta: {x: 400, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &402832108
@@ -4424,7 +4424,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.000049082075}
+  m_AnchoredPosition: {x: 0, y: -0.000063844556}
   m_SizeDelta: {x: 400, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &455080273
@@ -5282,7 +5282,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1000930455}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.99999994
+  m_Size: 0.9999999
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -9142,7 +9142,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1489261551}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.99999994
+  m_Size: 0.9999999
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -10750,7 +10750,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 214907131}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.99999994
+  m_Size: 0.9999999
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -11057,7 +11057,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1732369526}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.99999994
+  m_Size: 0.9999999
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -11133,7 +11133,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.000033823282}
+  m_AnchoredPosition: {x: 0, y: -0.00004858576}
   m_SizeDelta: {x: 400, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1053344143
@@ -11705,7 +11705,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1497339987}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.99999994
+  m_Size: 0.9999999
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -20119,7 +20119,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.000033823282}
+  m_AnchoredPosition: {x: 0, y: -0.00004858576}
   m_SizeDelta: {x: 400, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1923719782
