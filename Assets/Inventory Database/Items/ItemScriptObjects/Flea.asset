@@ -18,7 +18,7 @@ MonoBehaviour:
   isStackable: 0
   maxStackNumber: 1
   description: 
-  variety: 0
+  variety: 1
   rarity: 0
   buy_Price: []
   sell_Price: []
@@ -26,7 +26,11 @@ MonoBehaviour:
   playClipTimes: 0
   coolDown: 0
   consumableItemType: 0
-  consumableItemAttributes: []
+  consumableItemAttributes:
+  - consumableItemAttribute: {fileID: 11400000, guid: b52688fb9b86d23438603d89fee49264,
+      type: 2}
+    effectType: 0
+    value: 1000
   useOnPickUp: 0
   CDAllThisWhenUse: 0
   CDAllConsumbleWhenUse: 0

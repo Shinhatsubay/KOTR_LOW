@@ -20,8 +20,8 @@ namespace QInventory
                 return;
             if (!droppedItem.inv)
                 return;
-            if (droppedItem.inv.tag == "Equipment")
-                return;
+            //if (droppedItem.inv.tag == "Equipment") //mypatch
+            //    return;
             if ((droppedItem.inv.tag == "Inventory" || inv.tag == "SkillBar"))
             {
                 if (droppedItem.inv.ReturnCoolingState(droppedItem.slot))
@@ -32,7 +32,7 @@ namespace QInventory
             }
 
             string tag = eventData.pointerCurrentRaycast.gameObject.tag;
-            if (tag == "Storage" || tag == "Inventory" || tag == "SkillBar")
+            if (tag == "Storage" || tag == "Inventory" || tag == "SkillBar" || tag == "Equipment") //+  || tag == "Equipment"
             {
                 //Debug.Log(eventData.pointerCurrentRaycast.gameObject.tag);
                 if (inv.items[slotID].ID == -1)
@@ -98,7 +98,7 @@ namespace QInventory
                         data.inv.items[droppedItem.slot] = data.item;
                         inv.items[slotID] = droppedItem.item;
 
-                        if (inv.tag == "Inventory" || inv.tag == "SkillBar")
+                        if (inv.tag == "Inventory" || inv.tag == "SkillBar" || inv.tag == "Equipment") //+  || inv.tag == "Equipment"
                         {
                             inv.cds[droppedItem.slot] = new CoolDown(data.cd, data.item.coolDown);
                             droppedItem.inv.cds[slotID] = new CoolDown(droppedItem.cd, droppedItem.item.coolDown);

@@ -26,7 +26,7 @@ namespace QInventory
         {
             if (itemData.item != null)
             {
-                //if (inv.tag == "Equipment")
+                //if (inv.tag == "Equipment") // mypatch
                 //    return;
 
                 if ((inv.tag == "Inventory" || inv.tag == "SkillBar"))
@@ -84,6 +84,14 @@ namespace QInventory
                 Debug.Log("Sell Item");
                 itemData.SellItem();
             }
+
+            //mypatch
+            else if (eventData.pointerCurrentRaycast.gameObject.tag == "Equipment")
+            {
+                Debug.Log("Drag equip");
+                //itemData.SellItem();
+            }
+            //-
 
             else if (eventData.pointerCurrentRaycast.gameObject.tag == inv.tag)
             {
