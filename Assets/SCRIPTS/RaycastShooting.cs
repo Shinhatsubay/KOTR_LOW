@@ -81,15 +81,17 @@ public class RaycastShooting : MonoBehaviour {
     void Shoot()
     {  
         RaycastHit hit;
+
         GameObject effectIns = Instantiate(muzzleFlash, transform.position, transform.rotation);
         FindObjectOfType<AudioManager>().Play("Shot1");
         Destroy(effectIns, 1f);
         rayDelay = false;
+
         if (Physics.Raycast(Gun.transform.position, Gun.transform.forward, out hit, range))
         {      
             DestructibleObj enemy =  hit.transform.GetComponent<DestructibleObj>();
 
-            if (enemy != null)
+            if (enemy != null && enemy.tag != "Player")
             {
                 damage = (int)RandomDmg();
                 eventLog.NewActivity(("You hit " + enemy.name + " for " + damage));

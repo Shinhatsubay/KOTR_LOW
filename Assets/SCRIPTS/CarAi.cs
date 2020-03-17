@@ -3,11 +3,12 @@ using UnityEngine;
 
 public class CarAi : MonoBehaviour {
 
-    private Transform PlayerTransform;
-    public bool avoiding = false; //private
-    public enum RoadLines { Line1, Line2, Line3, Line4, Line5, Line6, Line7, Line8 };
+    public GameObject pathNode;
 
-    //public Transform TheBus;
+    public Transform PlayerTransform;
+
+    public bool avoiding = false;
+    public enum RoadLines { Line1, Line2, Line3, Line4, Line5, Line6, Line7, Line8 };
 
     public float chaseRange;
     public float randomX;
@@ -15,10 +16,9 @@ public class CarAi : MonoBehaviour {
     public float randomZ;
     public float randomZlast;
 
-    public bool isChanging; //private
-   // private bool positionFounded;
+    public float checkY = -29f;
 
-    public Transform Path;
+    public bool isChanging;
 
     public float MaxSpeed = 60f;
     public float MaxMotorTorque = 300f;
@@ -34,14 +34,11 @@ public class CarAi : MonoBehaviour {
 
     private float CurSpeed;
     private float pitch = 0;
-    public bool isBraking = false; //private
+    public bool isBraking = false;
     private bool isReverse = false;
-    private float MaxBrakeTorque = 10000f;
+    public float MaxBrakeTorque = 100000f;
     public float CurrLine;
     private bool Manevr;
-
-    private List<Transform> Nodes;
-    private int CurrentNode = 0;
 
     [Header("Sensors")]
     public float sensorLength = 10;
@@ -69,16 +66,11 @@ public class CarAi : MonoBehaviour {
 
         PlayerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         GetComponent<Rigidbody>().centerOfMass = CenterOfMass;
-        Transform[] PathTransforms = Path.GetComponentsInChildren<Transform>();
-        //CurrLine = Line1;
 
-        Nodes = new List<Transform>();
-        for (int i = 0; i < PathTransforms.Length; i++)
-            if(PathTransforms[i] != Path.transform)
-            {
-                Nodes.Add(PathTransforms[i]);
-            }
-	}
+        GameObject pathNode = new GameObject(); 
+        pathNode.transform.position = PlayerTransform.position;
+
+    }
 
 	private void FixedUpdate () {
         if (!avoiding)
@@ -120,7 +112,10 @@ public class CarAi : MonoBehaviour {
             {
                 Debug.DrawLine(sensorStartPos, hit.point);
                 avoiding = true;
-                TurnRight();
+                randomX = Random.Range(1, 2);
+                if (randomX > 1)
+                    TurnRight();
+                else TurnLeft();
                 //isBraking = true;
             }
 
@@ -146,28 +141,6 @@ public class CarAi : MonoBehaviour {
                     TurnRight();
                 }
             }
-
-
-
-
-            ////front right angle
-            //if (Physics.Raycast(sensorStartPos, Quaternion.AngleAxis(fSensorAngle, transform.up) * transform.forward , out hit, sensorLength))
-            //{
-            //    if (hit.collider.CompareTag("Enemy"))
-            //    {
-            //        Debug.DrawLine(sensorStartPos, hit.point);
-            //        avoiding = true;
-            //    }
-            //}
-
-            ////front left angle
-            //if (Physics.Raycast(sensorStartPos, Quaternion.AngleAxis(-fSensorAngle, transform.up) * transform.forward, out hit, sensorLength))
-            //{
-            //    if (hit.collider.CompareTag("LightDebris"))
-            //    {
-            //        Debug.DrawLine(sensorStartPos, hit.point);
-            //        avoiding = true;
-            //    }
         }
      
     }
@@ -179,22 +152,24 @@ public class CarAi : MonoBehaviour {
         //{
             if (Vector3.Distance(transform.position, PlayerTransform.position) > chaseRange && PlayerTransform.position.z > transform.position.z)
             {
-                Nodes[CurrentNode].position = new Vector3(PlayerTransform.position.x, 0.3f, PlayerTransform.position.z - 30);
+                pathNode.transform.position = new Vector3(PlayerTransform.position.x, checkY, PlayerTransform.position.z - 40f);
             }
+            //else if ((PlayerTransform.position.z + 20f) < transform.position.z)
+            //{
+            //    isBraking = true;
+            //}
             else
             {
-
-                Nodes[CurrentNode].position = new Vector3(CurrLine, 0.3f, PlayerTransform.position.z + randomZ);
-                if (Nodes[CurrentNode].position.z < transform.position.z && !isChanging)
+            pathNode.transform.position = new Vector3(CurrLine, checkY, PlayerTransform.position.z + randomZ);
+                if (pathNode.transform.position.z < transform.position.z && !isChanging)
                 {
-                    //Nodes[CurrentNode].position = new Vector3((50f) + ((2.5f) * randomX), 0.3f, transform.position.z + TurnAngle);
-                    Nodes[CurrentNode].position = new Vector3(CurrLine, 0.3f, transform.position.z + TurnAngle);
+                    pathNode.transform.position = new Vector3(CurrLine, checkY, transform.position.z + TurnAngle);
                     isBraking = true;
-                    if (!isChanging)
-                    {
-                        Invoke("ChangePos", 5);
-                        isChanging = true;
-                    }
+                        if (!isChanging)
+                        {
+                            Invoke("ChangePos", 10f); //5
+                            isChanging = true;
+                        }
                 }
             }
         //}
@@ -226,7 +201,7 @@ public class CarAi : MonoBehaviour {
             randomXlast = randomX;
             //CurrLine = (float)RoadLines.Line1;
 
-            randomZ = Random.Range(-20, 20);
+            randomZ = Random.Range(-10, 10);
             if (randomZ < randomZlast)
             {
                 randomZ = randomZlast;
@@ -241,16 +216,16 @@ public class CarAi : MonoBehaviour {
 
     private void CheckWaypointDistance()
     {
-        if (Vector3.Distance(transform.position, Nodes[CurrentNode].position) < CheckDist)
+        if (Vector3.Distance(transform.position, pathNode.transform.position) < CheckDist)
         {
-            Nodes[CurrentNode].position = new Vector3(CurrLine, 0.5f, Nodes[CurrentNode].position.z + TurnAngle);
+            pathNode.transform.position = new Vector3(CurrLine, checkY, pathNode.transform.position.z + TurnAngle); // y = 0.5f
             avoiding = false;
         }
     }
 
     private void ApplySteer()
     { 
-        Vector3 RelativeVector = transform.InverseTransformPoint(Nodes[CurrentNode].position);
+        Vector3 RelativeVector = transform.InverseTransformPoint(pathNode.transform.position);
         float NewSteer = (RelativeVector.x / RelativeVector.magnitude) * MaxSteerAngle;
         WheelFL.steerAngle = NewSteer;
         WheelFR.steerAngle = NewSteer;
@@ -300,42 +275,42 @@ public class CarAi : MonoBehaviour {
     {
         if (CurrLine == Line1)
         {
-            Nodes[CurrentNode].position = new Vector3(Line2, 0.5f, gameObject.transform.position.z + TurnAngle);
+            pathNode.transform.position = new Vector3(Line2, checkY, gameObject.transform.position.z + TurnAngle);
             CurrLine = Line2;
         }
         else if (CurrLine == Line2)
         {
-            Nodes[CurrentNode].position = new Vector3(Line3, 0.5f, gameObject.transform.position.z + TurnAngle);
+            pathNode.transform.position = new Vector3(Line3, checkY, gameObject.transform.position.z + TurnAngle);
             CurrLine = Line3;
         }
         else if (CurrLine == Line3)
         {
-            Nodes[CurrentNode].position = new Vector3(Line4, 0.5f, gameObject.transform.position.z + TurnAngle);
+            pathNode.transform.position = new Vector3(Line4, checkY, gameObject.transform.position.z + TurnAngle);
             CurrLine = Line4;
         }
         else if (CurrLine == Line4)
         {
-            Nodes[CurrentNode].position = new Vector3(Line5, 0.5f, gameObject.transform.position.z + TurnAngle);
+            pathNode.transform.position = new Vector3(Line5, checkY, gameObject.transform.position.z + TurnAngle);
             CurrLine = Line5;
         }
         else if (CurrLine == Line5)
         {
-            Nodes[CurrentNode].position = new Vector3(Line6, 0.5f, gameObject.transform.position.z + TurnAngle);
+            pathNode.transform.position = new Vector3(Line6, checkY, gameObject.transform.position.z + TurnAngle);
             CurrLine = Line6;
         }
         else if (CurrLine == Line6)
         {
-            Nodes[CurrentNode].position = new Vector3(Line7, 0.5f, gameObject.transform.position.z + TurnAngle);
+            pathNode.transform.position = new Vector3(Line7, checkY, gameObject.transform.position.z + TurnAngle);
             CurrLine = Line7;
         }
         else if (CurrLine == Line7)
         {
-            Nodes[CurrentNode].position = new Vector3(Line8, 0.5f, gameObject.transform.position.z + TurnAngle);
+            pathNode.transform.position = new Vector3(Line8, checkY, gameObject.transform.position.z + TurnAngle);
             CurrLine = Line8;
         }
         else if (CurrLine == Line8)
         {
-            Nodes[CurrentNode].position = new Vector3(Line9, 0.5f, gameObject.transform.position.z + TurnAngle * 1.5f);
+            pathNode.transform.position = new Vector3(Line9, checkY, gameObject.transform.position.z + (TurnAngle * 1.5f));
             CurrLine = Line8;
             Manevr = true;
         }
@@ -346,45 +321,44 @@ public class CarAi : MonoBehaviour {
     {
         if (CurrLine == Line8)
         {
-            Nodes[CurrentNode].position = new Vector3(Line7, 0.5f, gameObject.transform.position.z + TurnAngle);
+            pathNode.transform.position = new Vector3(Line7, checkY, gameObject.transform.position.z + TurnAngle);
             CurrLine = Line7;
         }
         else if (CurrLine == Line7)
         {
-            Nodes[CurrentNode].position = new Vector3(Line6, 0.5f, gameObject.transform.position.z + TurnAngle);
+            pathNode.transform.position = new Vector3(Line6, checkY, gameObject.transform.position.z + TurnAngle);
             CurrLine = Line6;
         }
         else if (CurrLine == Line6)
         {
-            Nodes[CurrentNode].position = new Vector3(Line5, 0.5f, gameObject.transform.position.z + TurnAngle);
+            pathNode.transform.position = new Vector3(Line5, checkY, gameObject.transform.position.z + TurnAngle);
             CurrLine = Line5;
         }
         else if (CurrLine == Line5)
         {
-            Nodes[CurrentNode].position = new Vector3(Line4, 0.5f, gameObject.transform.position.z + TurnAngle);
+            pathNode.transform.position = new Vector3(Line4, checkY, gameObject.transform.position.z + TurnAngle);
             CurrLine = Line4;
         }
         else if (CurrLine == Line4)
         {
-            Nodes[CurrentNode].position = new Vector3(Line3, 0.5f,gameObject.transform.position.z + TurnAngle);
+            pathNode.transform.position = new Vector3(Line3, checkY, gameObject.transform.position.z + TurnAngle);
             CurrLine = Line3;
         }
         else if (CurrLine == Line3)
         {
-            Nodes[CurrentNode].position = new Vector3(Line2, 0.5f, gameObject.transform.position.z + TurnAngle);
+            pathNode.transform.position = new Vector3(Line2, checkY, gameObject.transform.position.z + TurnAngle);
             CurrLine = Line2;
         }
         else if (CurrLine == Line2)
         {
-            Nodes[CurrentNode].position = new Vector3(Line1, 0.5f, gameObject.transform.position.z + TurnAngle);
+            pathNode.transform.position = new Vector3(Line1, checkY, gameObject.transform.position.z + TurnAngle);
             CurrLine = Line1;
         }
         else if (CurrLine == Line1)
         {
-            Nodes[CurrentNode].position = new Vector3(Line0, 0.5f, gameObject.transform.position.z + TurnAngle * 1.5f);
+            pathNode.transform.position = new Vector3(Line0, checkY, gameObject.transform.position.z + (TurnAngle * 1.5f));
             CurrLine = Line1;
             Manevr = true;
         }
     }
-
 }

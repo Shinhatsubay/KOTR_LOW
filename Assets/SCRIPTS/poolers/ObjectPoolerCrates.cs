@@ -49,9 +49,8 @@ public class ObjectPoolerCrates : MonoBehaviour {
         for (int i = 0; i < pooledObjects.Count; i++)
         {
             if (pooledObjects[i].activeInHierarchy)
-                if(pooledObjects[i].transform.position.y < -10f)
-                    return pooledObjects[i];
-            
+                if(pooledObjects[i].transform.position.y < -50f)
+                    return pooledObjects[i];    
         }
         return null;
     }

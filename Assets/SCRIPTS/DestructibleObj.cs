@@ -41,7 +41,6 @@ public class DestructibleObj : MonoBehaviour
     {
         gameObject.SetActive(false);
         objCurHealth = objHealth;
-        //gameObject.transform.rotation = new Quaternion(0f, 0f, 0f, 0f);
 
         if (AudioEff != "")
             FindObjectOfType<AudioManager>().Play(AudioEff);

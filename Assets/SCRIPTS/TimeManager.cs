@@ -23,7 +23,7 @@ public class TimeManager : MonoBehaviour
 
         if (!playerHealth.isDead && !paused && !pausedA)
         {
-            Time.timeScale += (1f / slowdownLength) * Time.unscaledDeltaTime;
+            Time.timeScale += 1f / slowdownLength * Time.unscaledDeltaTime;
             Time.timeScale = Mathf.Clamp(Time.timeScale, 0f, 1f);
         }
     }

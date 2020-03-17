@@ -31,7 +31,7 @@ public class PathNodes : MonoBehaviour {
                 PrevNode = nodes[nodes.Count - 1].position;
             }
             Gizmos.DrawLine(PrevNode, CurrentNode);
-            Gizmos.DrawSphere(CurrentNode, 0.2f);
+            Gizmos.DrawSphere(CurrentNode, 0.2f); 
         }
 
     }

@@ -5,16 +5,21 @@ public class SpawnManager : MonoBehaviour
 {
     private Transform PlayerTransform;
 
-    private int AmountOnScreen = 10;
-    private float SafeZone = 200f;
+    public int AmountOnScreen = 15;
+    private float SafeZone = 2000f;
 
-    private float TileLength = 180f; //testplane 2000f
-    private float SpawnZ = 0; // testplane 6000f
+    private float TileLength = 2000f; // 180f
+    private float spawnZ = -3000f; // 0f
+    private float spawnY = -30f;
+    private float spawnX = -250f;
+    private float itemSpawnY = -29f;
     private float LastLine = 1;
-    public float SpawnBar = 50f;
+    public float SpawnBar = 300f;
     public float spawnEnemyDist = 100f;
     public float EnemySpawnTime = 30;
     public float enemiesOnStart = 3;
+
+    public float delItemDist = 200f;
 
     public GameObject[] EnemyPrefabs;
     private List<GameObject> ActiveEnemy;
@@ -42,12 +47,12 @@ public class SpawnManager : MonoBehaviour
         {
             GameObject obj = ObjectPoolerTerrain.current.GetPooledObject();
             if (obj == null) return;
-            obj.transform.position = new Vector3(0, 0, 1 * SpawnZ);
-            SpawnZ += TileLength;
+            obj.transform.position = new Vector3(spawnX, spawnY, spawnZ); // Y=0
+            spawnZ += TileLength;
             obj.SetActive(true);
 
             if (i <= 0)
-                SpawnEnemy();
+              SpawnEnemy();
         }
     }
 
@@ -55,7 +60,7 @@ public class SpawnManager : MonoBehaviour
     {
         GameObject ActiveObj = ObjectPoolerCrates.current.GivePooledObject();
         if (ActiveObj == null) return;
-        if (PlayerTransform.transform.position.z - 60f > ActiveObj.transform.position.z || ActiveObj.transform.position.y < -1)
+        if (PlayerTransform.transform.position.z - delItemDist > ActiveObj.transform.position.z || ActiveObj.transform.position.y < -delItemDist)
             ActiveObj.SetActive(false);
         
     }
@@ -64,7 +69,7 @@ public class SpawnManager : MonoBehaviour
     {
         GameObject obj = ObjectPoolerCrates.current.GetPooledObject();
         if (obj == null) return;
-        obj.transform.position = new Vector3((50) + ((2.5f) * RandomLine()), 0.1f, PlayerTransform.transform.position.z + SpawnBar + RandomDist());
+        obj.transform.position = new Vector3((50) + ((2.5f) * RandomLine()), itemSpawnY, PlayerTransform.transform.position.z + SpawnBar + RandomDist());
         obj.SetActive(true);
     }
 
@@ -72,7 +77,7 @@ public class SpawnManager : MonoBehaviour
     {
         GameObject ActiveObj = ObjectPooler.current.GivePooledObject();
         if (ActiveObj == null) return;
-        if (PlayerTransform.transform.position.z - 60 > ActiveObj.transform.position.z || ActiveObj.transform.position.y < -1)
+        if (PlayerTransform.transform.position.z - delItemDist > ActiveObj.transform.position.z || ActiveObj.transform.position.y < -delItemDist)
             ActiveObj.SetActive(false);
     }
 
@@ -80,18 +85,18 @@ public class SpawnManager : MonoBehaviour
     {
         GameObject obj = ObjectPooler.current.GetPooledObject();
         if (obj == null) return;
-        obj.transform.position = new Vector3((50f) + ((2.5f) * RandomLine()), 0.8f, PlayerTransform.transform.position.z + SpawnBar + RandomDist());
+        obj.transform.position = new Vector3(50f + (2.5f * RandomLine()), itemSpawnY, PlayerTransform.transform.position.z + SpawnBar + RandomDist());
         obj.SetActive(true);
     }
 
     private void SpawnTile()
     {
-        if (PlayerTransform.position.z - SafeZone > (SpawnZ - AmountOnScreen * TileLength))
+        if (PlayerTransform.position.z - SafeZone > (spawnZ - AmountOnScreen * TileLength))
         {
             GameObject obj = ObjectPoolerTerrain.current.GetPooledObject();
             if (obj == null) return;
-            obj.transform.position = new Vector3(0, 0, 1 * SpawnZ);
-            SpawnZ += TileLength;
+            obj.transform.position = new Vector3(spawnX, spawnY, spawnZ); //Y = 0
+            spawnZ += TileLength;
             obj.SetActive(true);
         }
     }
@@ -104,7 +109,7 @@ public class SpawnManager : MonoBehaviour
         return Line;
     }
 
-    private float RandomDist() { return Random.Range(40, 80); }
+    private float RandomDist() { return Random.Range(40, delItemDist); }
 
     private void DelTile()
     {
@@ -120,8 +125,7 @@ public class SpawnManager : MonoBehaviour
             GameObject enemy;
             enemy = Instantiate(EnemyPrefabs[0]) as GameObject;
             enemy.transform.SetParent(transform);
-            enemy.transform.position = new Vector3((50f) + ((2.5f) * RandomLine()), 0.1f, PlayerTransform.transform.position.z + spawnEnemyDist);
-            //SpawnJumpy += JumpyGapBar;
+            enemy.transform.position = new Vector3((50f) + ((2.5f) * RandomLine()), itemSpawnY, PlayerTransform.transform.position.z + spawnEnemyDist);
             ActiveEnemy.Add(enemy);
         }
     }
@@ -131,7 +135,7 @@ public class SpawnManager : MonoBehaviour
         for (int i = 0; i < ActiveEnemy.Count; i++) 
         {
             if (ActiveEnemy[i] != null)
-                if (ActiveEnemy[i].transform.position.y < -1 || !ActiveEnemy[i].activeInHierarchy)
+                if (ActiveEnemy[i].transform.position.y < -delItemDist || !ActiveEnemy[i].activeInHierarchy)
                 {
                     Destroy(ActiveEnemy[i]);
                     ActiveEnemy.Remove(ActiveEnemy[i]);

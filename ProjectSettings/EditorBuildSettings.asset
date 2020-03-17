@@ -11,3 +11,4 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/GeneralScene.unity
     guid: cca2387bd73f16d44a1e127734642b48
+  m_configObjects: {}

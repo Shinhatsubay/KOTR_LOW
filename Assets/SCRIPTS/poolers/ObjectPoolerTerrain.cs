@@ -6,27 +6,38 @@ public class ObjectPoolerTerrain : MonoBehaviour {
     private Transform PlayerTransform;
 
     public static ObjectPoolerTerrain current;
-    public GameObject pooledObject;
+    //public GameObject pooledObject;
     public int pooledAmount = 5;
-    public bool willGrow = true;
+    //public bool willGrow = true;
+
+    public GameObject[] terrainPrefabs;
+    //private List<GameObject> ActiveTerrain;
 
     List<GameObject> pooledObjects;
 
-    void Awake()
-    {
-        current = this;
-    }
+    void Awake() => current = this;
 
     void Start()
     {
+        //PlayerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        //pooledObjects = new List<GameObject>();
+        //for (int i = 0; i < pooledAmount; i++)
+        //{
+        //    GameObject obj = Instantiate(pooledObject);
+        //    obj.SetActive(false);
+        //    pooledObjects.Add(obj);
+        //}
+
         PlayerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+
         pooledObjects = new List<GameObject>();
-        for (int i = 0; i < pooledAmount; i++)
+        for (int i = 0; i < terrainPrefabs.Length; i++)
         {
-            GameObject obj = Instantiate(pooledObject);
+            GameObject obj = Instantiate(terrainPrefabs[i]);
             obj.SetActive(false);
             pooledObjects.Add(obj);
         }
+
     }
 
     public GameObject GetPooledObject()
@@ -38,12 +49,12 @@ public class ObjectPoolerTerrain : MonoBehaviour {
                 return pooledObjects[i];
             }
         }
-        if (willGrow)
-        {
-            GameObject obj = Instantiate(pooledObject);
-            pooledObjects.Add(obj);
-            return obj;
-        }
+        //if (willGrow)
+        //{
+        //    GameObject obj = Instantiate(pooledObject);
+        //    pooledObjects.Add(obj);
+        //    return obj;
+        //}
         return null;
     }
 
@@ -53,7 +64,7 @@ public class ObjectPoolerTerrain : MonoBehaviour {
         {
             if (pooledObjects[i].activeInHierarchy)
             {
-                if(PlayerTransform.transform.position.z - 700f > pooledObjects[i].transform.position.z)
+                if(PlayerTransform.transform.position.z - 6000f > pooledObjects[i].transform.position.z)
                     return pooledObjects[i];
             }
         }

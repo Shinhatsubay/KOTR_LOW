@@ -4,7 +4,6 @@ using UnityEngine.UI;
 
 public class CarEngine : MonoBehaviour {
 
-
     DestructibleObj CarHealth;
 
     public bool isReverse;
@@ -14,7 +13,11 @@ public class CarEngine : MonoBehaviour {
     public Text GearTextField;
     public Text SpeedField;
     public Transform GameOverScreen;
-    public Transform Path;
+    public float gearStepVol = 14f;
+
+    //public Transform Path;
+
+    public GameObject pathNode;
 
     public float MaxSpeed;
     public float MaxMotorTorque = 300f;
@@ -31,7 +34,7 @@ public class CarEngine : MonoBehaviour {
     private float CurSpeed;
     private float pitch = 0;
     private bool IsBraking = false;
-    private float MaxBrakeTorque = 10000f;
+    public float MaxBrakeTorque = 1000000f;
     private float CurrLine;
     
     private bool Manevr;
@@ -39,7 +42,7 @@ public class CarEngine : MonoBehaviour {
     private int CurrentNode = 0;
     public int CounterGear = 0;
 
-    [Header("Lines")]
+    [Header("LinesX")]
     private float Line0 = 46.5f;
     private float Line1 = 50;
     private float Line2 = 52.5f;
@@ -51,12 +54,15 @@ public class CarEngine : MonoBehaviour {
     private float Line8 = 67.5f;
     private float Line9 = 71f;
 
-   
+   private float linesY = -29f; 
 
     void Start () {
 
+        GameObject pathNode = new GameObject();
+        pathNode.transform.position = this.transform.position;
+
         GetComponent<Rigidbody>().centerOfMass = CenterOfMass;
-        Transform[] PathTransforms = Path.GetComponentsInChildren<Transform>();
+        //Transform[] PathTransforms = Path.GetComponentsInChildren<Transform>();
         CarHealth = GetComponent<DestructibleObj>();
         Score = 0;
         ScoreText.text = "";
@@ -65,12 +71,12 @@ public class CarEngine : MonoBehaviour {
         WheelFL.motorTorque = 0;
         WheelFR.motorTorque = 0;
 
-        Nodes = new List<Transform>();
-        for (int i = 0; i < PathTransforms.Length; i++)
-            if(PathTransforms[i] != Path.transform)
-            {
-                Nodes.Add(PathTransforms[i]);
-            }
+        //Nodes = new List<Transform>();
+        //for (int i = 0; i < PathTransforms.Length; i++)
+        //    if(PathTransforms[i] != Path.transform)
+        //    {
+        //        Nodes.Add(PathTransforms[i]);
+        //    }
 	}
 	
 	private void FixedUpdate () { 
@@ -93,7 +99,8 @@ public class CarEngine : MonoBehaviour {
         {
             CounterGear++;
             GearTextField.text = CounterGear.ToString();
-            MaxSpeed += 20f;
+            MaxSpeed += gearStepVol; //20
+
         } else if (CounterGear == -1)
         {
             CounterGear++;
@@ -111,7 +118,7 @@ public class CarEngine : MonoBehaviour {
         {
             CounterGear--;
             GearTextField.text = CounterGear.ToString();
-            MaxSpeed -= 20f;
+            MaxSpeed -= gearStepVol;
 
         } else if (CounterGear == 1)
         {
@@ -125,7 +132,7 @@ public class CarEngine : MonoBehaviour {
         {
             CounterGear--;
             GearTextField.text = CounterGear.ToString();
-            MaxSpeed = 20f;
+            MaxSpeed = gearStepVol;
             isReverse = true;
         }
     }
@@ -134,42 +141,42 @@ public class CarEngine : MonoBehaviour {
     {
         if (CurrLine == Line1)
         {
-            Nodes[CurrentNode].position = new Vector3(Line2, 0.5f, base.gameObject.transform.position.z + TurnAngle);
+            pathNode.transform.position = new Vector3(Line2, linesY, gameObject.transform.position.z + TurnAngle);
             CurrLine = Line2;
         }
         else if (CurrLine == Line2)
         {
-            Nodes[CurrentNode].position = new Vector3(Line3, 0.5f, base.gameObject.transform.position.z + TurnAngle); 
+            pathNode.transform.position = new Vector3(Line3, linesY, gameObject.transform.position.z + TurnAngle); 
             CurrLine = Line3;
         }
         else if (CurrLine == Line3)
         {
-            Nodes[CurrentNode].position = new Vector3(Line4, 0.5f, base.gameObject.transform.position.z + TurnAngle);
+            pathNode.transform.position = new Vector3(Line4, linesY, gameObject.transform.position.z + TurnAngle);
             CurrLine = Line4;
         }
         else if (CurrLine == Line4)
         {
-            Nodes[CurrentNode].position = new Vector3(Line5, 0.5f, base.gameObject.transform.position.z + TurnAngle);
+            pathNode.transform.position = new Vector3(Line5, linesY, base.gameObject.transform.position.z + TurnAngle);
             CurrLine = Line5;
         }
         else if (CurrLine == Line5)
         {
-            Nodes[CurrentNode].position = new Vector3(Line6, 0.5f, base.gameObject.transform.position.z + TurnAngle);
+            pathNode.transform.position = new Vector3(Line6, linesY, gameObject.transform.position.z + TurnAngle);
             CurrLine = Line6;
         }
         else if (CurrLine == Line6)
         {
-            Nodes[CurrentNode].position = new Vector3(Line7, 0.5f, base.gameObject.transform.position.z + TurnAngle);
+            pathNode.transform.position = new Vector3(Line7, linesY, gameObject.transform.position.z + TurnAngle);
             CurrLine = Line7;
         }
         else if (CurrLine == Line7)
         {
-            Nodes[CurrentNode].position = new Vector3(Line8, 0.5f, base.gameObject.transform.position.z + TurnAngle);
+            pathNode.transform.position = new Vector3(Line8, linesY, gameObject.transform.position.z + TurnAngle);
             CurrLine = Line8;
         }
         else if (CurrLine == Line8)
         {
-            Nodes[CurrentNode].position = new Vector3(Line9, 0.5f, base.gameObject.transform.position.z + TurnAngle*1.5f);
+            pathNode.transform.position = new Vector3(Line9, linesY, gameObject.transform.position.z + TurnAngle*1.5f);
             CurrLine = Line8;
             Manevr = true;
         }
@@ -180,42 +187,42 @@ public class CarEngine : MonoBehaviour {
     {
         if (CurrLine == Line8)
         {
-            Nodes[CurrentNode].position = new Vector3(Line7, 0.5f, base.gameObject.transform.position.z + TurnAngle); 
+            pathNode.transform.position = new Vector3(Line7, linesY, gameObject.transform.position.z + TurnAngle); 
             CurrLine = Line7;
         }
         else if (CurrLine == Line7)
         {
-            Nodes[CurrentNode].position = new Vector3(Line6, 0.5f, base.gameObject.transform.position.z + TurnAngle); 
+            pathNode.transform.position = new Vector3(Line6, linesY, gameObject.transform.position.z + TurnAngle); 
             CurrLine = Line6;
         }
         else if (CurrLine == Line6)
         {
-            Nodes[CurrentNode].position = new Vector3(Line5, 0.5f, base.gameObject.transform.position.z + TurnAngle);
+            pathNode.transform.position = new Vector3(Line5, linesY, gameObject.transform.position.z + TurnAngle);
             CurrLine = Line5;
         }
         else if (CurrLine == Line5)
         {
-            Nodes[CurrentNode].position = new Vector3(Line4, 0.5f, base.gameObject.transform.position.z + TurnAngle);
+            pathNode.transform.position = new Vector3(Line4, linesY, gameObject.transform.position.z + TurnAngle);
             CurrLine = Line4;
         }
         else if (CurrLine == Line4)
         {
-            Nodes[CurrentNode].position = new Vector3(Line3, 0.5f, base.gameObject.transform.position.z + TurnAngle);
+            pathNode.transform.position = new Vector3(Line3, linesY, gameObject.transform.position.z + TurnAngle);
             CurrLine = Line3;
         }
         else if (CurrLine == Line3)
         {
-            Nodes[CurrentNode].position = new Vector3(Line2, 0.5f, base.gameObject.transform.position.z + TurnAngle);
+            pathNode.transform.position = new Vector3(Line2, linesY, gameObject.transform.position.z + TurnAngle);
             CurrLine = Line2;
         }
         else if (CurrLine == Line2)
         {
-            Nodes[CurrentNode].position = new Vector3(Line1, 0.5f, base.gameObject.transform.position.z + TurnAngle);
+            pathNode.transform.position = new Vector3(Line1, linesY, gameObject.transform.position.z + TurnAngle);
             CurrLine = Line1;
         }
         else if (CurrLine == Line1)
         {
-            Nodes[CurrentNode].position = new Vector3(Line0, 0.5f, base.gameObject.transform.position.z + TurnAngle*1.5f);
+            pathNode.transform.position = new Vector3(Line0, linesY, gameObject.transform.position.z + TurnAngle*1.5f);
             CurrLine = Line1;
             Manevr = true;
         }
@@ -223,7 +230,7 @@ public class CarEngine : MonoBehaviour {
 
     private void ApplySteer()
     { 
-        Vector3 RelativeVector = transform.InverseTransformPoint(Nodes[CurrentNode].position);
+        Vector3 RelativeVector = transform.InverseTransformPoint(pathNode.transform.position);
         float NewSteer = (RelativeVector.x / RelativeVector.magnitude) * MaxSteerAngle;
         WheelFL.steerAngle = NewSteer;
         WheelFR.steerAngle = NewSteer;
@@ -263,15 +270,15 @@ public class CarEngine : MonoBehaviour {
 
     private void CheckWaypointDistance()
     {
-        if (Vector3.Distance(transform.position, Nodes[CurrentNode].position) < TurnDist)
+        if (Vector3.Distance(transform.position, pathNode.transform.position) < TurnDist)
         {
             if (Manevr)
             {
-                Nodes[CurrentNode].position = new Vector3(CurrLine, 0.5f, Nodes[CurrentNode].position.z + TurnAngle * 1.5f);
+                pathNode.transform.position = new Vector3(CurrLine, linesY, pathNode.transform.position.z + TurnAngle * 1.5f);
                 Manevr = false;
             } else
             {
-                Nodes[CurrentNode].position = new Vector3(CurrLine, 0.5f, Nodes[CurrentNode].position.z + TurnAngle);
+                pathNode.transform.position = new Vector3(CurrLine, linesY, pathNode.transform.position.z + TurnAngle);
             }
         }
     }
